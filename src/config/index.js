@@ -1,10 +1,10 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 const envFound = dotenv.config();
 if (envFound.error) {
-  throw new Error("Could not found .env file");
+  throw new Error('Could not found .env file');
 }
 
 export default {
@@ -17,6 +17,6 @@ export default {
     level: process.env.LOG_LEVEL || 'silly',
   },
   api: {
-    prefix: "/api/v1",
+    prefix: '/api/v1',
   },
 };

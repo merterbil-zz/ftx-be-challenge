@@ -1,6 +1,6 @@
-import { Router } from "express";
+import { Router } from 'express';
 import { Container } from 'typedi';
-import { celebrate, Joi } from "celebrate";
+import { celebrate, Joi } from 'celebrate';
 import FtxService from '../../services/ftx';
 
 const route = Router();
@@ -9,7 +9,7 @@ export default (app) => {
   app.use('/quote', route);
 
   route.post(
-    "/",
+    '/',
     celebrate({
       body: Joi.object({
         action: Joi.string().required().valid('buy', 'sell'),

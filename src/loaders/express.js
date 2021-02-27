@@ -1,15 +1,15 @@
-import bodyParser from "body-parser";
-import { isCelebrateError } from "celebrate";
-import cors from "cors";
-import routes from "../api";
-import config from "../config";
+import bodyParser from 'body-parser';
+import { isCelebrateError } from 'celebrate';
+import cors from 'cors';
+import routes from '../api';
+import config from '../config';
 
 export default ({ app }) => {
   // Health Check endpoints
-  app.get("/status", (req, res) => {
+  app.get('/status', (req, res) => {
     res.status(200).end();
   });
-  app.head("/status", (req, res) => {
+  app.head('/status', (req, res) => {
     res.status(200).end();
   });
 
@@ -23,8 +23,8 @@ export default ({ app }) => {
 
   /// catch 404 and forward to error handler
   app.use((req, res, next) => {
-    const err = new Error("Page not found");
-    err["status"] = 404;
+    const err = new Error('Page not found');
+    err['status'] = 404;
     next(err);
   });
 

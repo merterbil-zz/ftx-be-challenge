@@ -1,8 +1,8 @@
-import { Service, Container } from "typedi";
+import { Service, Container } from 'typedi';
 
 @Service()
 export default class FtxService {
-  _ftx = Container.get("ftx");
+  _ftx = Container.get('ftx');
 
   _getMarketNames = async (baseCurrency, quoteCurrency) => {
     const market = [baseCurrency, quoteCurrency];
@@ -12,14 +12,14 @@ export default class FtxService {
     });
     return (
       markets?.result
-        ?.filter((item) => item.type === "spot" && (item.name === market.join("/") || item.name === market.reverse().join("/")))
+        ?.filter((item) => item.type === 'spot' && (item.name === market.join('/') || item.name === market.reverse().join('/')))
         .map((item) => item.name) || []
     );
   };
 
   _getOrderbook = async (market) => {
     const orderbook = await this._ftx.request({
-      method: "GET",
+      method: 'GET',
       path: `/markets/${market}/orderbook`,
     });
     return orderbook?.result || {};
@@ -28,12 +28,12 @@ export default class FtxService {
   quote = async ({ action, base_currency, quote_currency, amount }) => {
     const parsedAmount = parseFloat(amount);
     if (isNaN(parsedAmount)) {
-      throw new Error("amount cannot parsed")
+      throw new Error('amount cannot parsed')
     }
 
     const markets = await this._getMarketNames(base_currency, quote_currency);
     if (!markets.length) {
-      throw new Error("No market for requested currencies");
+      throw new Error('No market for requested currencies');
     }
 
     const orderbooks = await Promise.all(
@@ -41,7 +41,7 @@ export default class FtxService {
         const orderbook = await this._getOrderbook(item);
         return {
           market: item,
-          book: (action === "buy" ? orderbook.bids : orderbook.asks) || [],
+          book: (action === 'buy' ? orderbook.bids : orderbook.asks) || [],
         };
       })
     );
