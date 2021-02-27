@@ -9,10 +9,12 @@ For the first time, you need to run
 npm install
 ```
 
-Then, use the command below for copying .env.example to .env file and fill the necessary information in .env file (FTX Api key and secret)
+Then, use the command below for copying .env.example to .env file
 ```
 cp .env.example .env
 ```
+
+Fill the necessary information in newly created .env file (FTX Api key and secret)
 
 Then start the server with
 ```
