@@ -1,0 +1,11 @@
+{
+  "watch": [
+    "src",
+    ".env"
+  ],
+  "ext": "js,json",
+  "ignore": [
+    "src/**/*.spec.ts"
+  ],
+  "exec": "babel-node ./src/app.js"
+}
