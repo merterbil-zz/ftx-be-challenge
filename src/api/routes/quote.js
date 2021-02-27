@@ -22,8 +22,8 @@ export default (app) => {
       const logger = Container.get('logger');
       try {
         const ftxServiceInstance = Container.get(FtxService);
-        const exchangeResponse = await ftxServiceInstance.exchange(req.body);
-        return res.json(exchangeResponse).status(200);
+        const quoteResponse = await ftxServiceInstance.quote(req.body);
+        return res.json(quoteResponse).status(200);
       } catch (e) {
         logger.error('error: %o', e);
         return next(e);

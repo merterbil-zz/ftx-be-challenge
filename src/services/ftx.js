@@ -7,17 +7,12 @@ export default class FtxService {
   _getMarketNames = async (baseCurrency, quoteCurrency) => {
     const market = [baseCurrency, quoteCurrency];
     const markets = await this._ftx.request({
-      method: "GET",
+      method: 'GET',
       path: `/markets`,
     });
     return (
       markets?.result
-        ?.filter(
-          (item) =>
-            item.type === "spot" &&
-            (item.name === market.join("/") ||
-              item.name === market.reverse().join("/"))
-        )
+        ?.filter((item) => item.type === "spot" && (item.name === market.join("/") || item.name === market.reverse().join("/")))
         .map((item) => item.name) || []
     );
   };
@@ -30,7 +25,12 @@ export default class FtxService {
     return orderbook?.result || {};
   };
 
-  exchange = async ({ action, base_currency, quote_currency, amount }) => {
+  quote = async ({ action, base_currency, quote_currency, amount }) => {
+    const parsedAmount = parseFloat(amount);
+    if (isNaN(parsedAmount)) {
+      throw new Error("amount cannot parsed")
+    }
+
     const markets = await this._getMarketNames(base_currency, quote_currency);
     if (!markets.length) {
       throw new Error("No market for requested currencies");
@@ -48,17 +48,17 @@ export default class FtxService {
 
     let total = 0;
     orderbooks.forEach((item) => {
-      let _amount = parseFloat(amount);
-      item.book.forEach(([price, size]) => {
+      let _amount = parsedAmount;
+      item.book.forEach(([unitPrice, size]) => {
         if (_amount === 0) {
           return;
         }
 
         if (_amount > size) {
-          total += price * size;
+          total += size * unitPrice;
           _amount -= size;
         } else {
-          total += _amount * price;
+          total += _amount * unitPrice;
           _amount = 0;
         }
       });
